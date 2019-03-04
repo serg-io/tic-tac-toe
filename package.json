@@ -11,29 +11,25 @@
   },
   "scripts": {
     "build": "npm-run-all build-css build-html build-libs",
-      "build-css": "npm-run-all build-css-*",
-        "build-css-clean": "rimraf dist/css",
-        "build-css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/scss/style.scss dist/css/style.css",
-        "build-css-minify": "cleancss --source-map --source-map-inline-sources --output dist/css/style.min.css dist/css/style.css",
-
-      "build-html": "npm-run-all build-html-*",
-        "build-html-esm": "infuse --configs-path \"/libs/infuse.host/configs.js\" --cwd src html/**/*.html dist",
-
-      "build-libs": "cpx \"node_modules/infuse.host/src/{infuse*,configs,Watch,utils,sweep}.js\" dist/libs/infuse.host",
-
+    "build-css": "npm-run-all build-css-*",
+    "build-css-clean": "rimraf dist/css",
+    "build-css-compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 src/scss/style.scss dist/css/style.css",
+    "build-css-minify": "cleancss --source-map --source-map-inline-sources --output dist/css/style.min.css dist/css/style.css",
+    "build-html": "npm-run-all build-html-*",
+    "build-html-minify": "html-minifier --collapse-whitespace --remove-comments --input-dir src/html --output-dir dist/tmp/html",
+    "build-html-esm": "infuse --configs-path \"../libs/infuse.host/configs.js\" --cwd dist/tmp html/**/*.html dist",
+    "build-libs": "cpx \"node_modules/infuse.host/src/{infuse*,configs,Watch,utils,sweep}.js\" dist/libs/infuse.host",
     "lint": "npm-run-all lint-*",
-      "lint-css": "stylelint src/scss/**/*.scss",
-      "lint-js": "eslint src/js/*.js",
-
+    "lint-css": "stylelint src/scss/**/*.scss",
+    "lint-js": "eslint src/js/*.js",
     "start": "npm-run-all build server",
     "server": "node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-
     "watch": "npm-run-all build-libs --parallel watch-*",
-      "watch-css": "nodemon --watch src/scss --ext scss --exec \"npm run lint-css && npm run build-css\"",
-      "watch-html": "nodemon --watch src/html --ext html --exec \"npm run build-html\"",
-      "watch-js": "nodemon --watch src/js --ext js --exec \"npm run lint-js\"",
-      "watch-server": "nodemon --watch src/server.js --exec \"npm run server\""
+    "watch-css": "nodemon --watch src/scss --ext scss --exec \"npm run lint-css && npm run build-css\"",
+    "watch-html": "nodemon --watch src/html --ext html --exec \"npm run build-html\"",
+    "watch-js": "nodemon --watch src/js --ext js --exec \"npm run lint-js\"",
+    "watch-server": "nodemon --watch src/server.js --exec \"npm run server\""
   },
   "dependencies": {
     "infuse.host": "^0.3.1",
@@ -49,6 +45,7 @@
     "eslint": "^5.15.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
+    "html-minifier": "^3.5.21",
     "infuse-cli": "^0.1.1",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.11.0",
