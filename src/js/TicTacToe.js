@@ -5,7 +5,7 @@ import './BoardTile.js';
 import './NextSymbol.js';
 
 const ZARDOZ_X = '/img/square.svg';
-const ZARDOZ_O = '/img/zardoz01.png';
+const ZARDOZ_O = '/img/zardoz01.jpg';
 
 // TODO: Is a polyfill needed?
 export function parseSymbolsFromURL() {
