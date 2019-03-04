@@ -60,5 +60,5 @@ typings/
 # next.js build output
 .next
 
-# Generated files are written to the dist directory.
-dist
+# Generated files are written to the build directory.
+build

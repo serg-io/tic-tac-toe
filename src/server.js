@@ -10,7 +10,7 @@ app.use(async (ctx, next) => {
 	}
 });
 
-app.use(serve('dist'));
+app.use(serve('build/dist'));
 
 app.use(serve('src'));
 

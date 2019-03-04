@@ -4,7 +4,7 @@
  */
 
 // eslint-disable-next-line import/no-unresolved
-import { CustomHost as InfuseCustomHost } from '../libs/infuse.host/infuse.js';
+import { CustomHost as InfuseCustomHost } from './libs/infuse.host/infuse.js';
 
 /**
  * Defines a custom element class that includes methods used by all custom elements.
