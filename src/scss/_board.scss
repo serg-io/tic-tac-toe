@@ -1,0 +1,30 @@
+.board {
+	position: relative;
+
+	@each $name, $width in $board-sizes {
+		@include media-breakpoint-up($name, $grid-breakpoints) {
+			width: $width;
+			height: $width;
+		}
+	}
+
+	.background {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		@include absolute-100;
+
+		& > div {
+			@include responsive-tile;
+			will-change: transform;
+			background-color: $gray-400;
+			animation: grow 1s ease-in-out .25s forwards;
+		}
+	}
+}
+
+@keyframes grow {
+	from { transform: scale(1); }
+	to { transform: scale(3.2); }
+}

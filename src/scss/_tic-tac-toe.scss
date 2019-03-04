@@ -1,0 +1,10 @@
+tic-tac-toe {
+	display: block;
+	margin: $spacer auto;
+
+	@each $name, $width in $board-sizes {
+		@include media-breakpoint-up($name, $grid-breakpoints) {
+			width: $width;
+		}
+	}
+}

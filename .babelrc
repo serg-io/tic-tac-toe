@@ -1,0 +1,11 @@
+{
+  "plugins": ["syntax-object-rest-spread"],
+  "presets": [[
+    "env",
+    {
+      "targets": {
+        "node": "current"
+      }
+    }
+  ]]
+}

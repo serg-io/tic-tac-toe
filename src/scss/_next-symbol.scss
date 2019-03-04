@@ -1,0 +1,113 @@
+next-symbol {
+	display: block;
+
+	.tile {
+		position: relative;
+		will-change: transform;
+		perspective: #{ $tile-perspective }px;
+
+		@include responsive-tile;
+	}
+
+	.umbra,
+	.penumbra {
+		pointer-events: none;
+		@include ease-in-out($raise-duration);
+	}
+
+	.umbra {
+		background: url("../img/umbra.svg") center center/100% no-repeat;
+		opacity: .3;
+	}
+
+	.penumbra {
+		background: url("../img/penumbra.svg") center center/100% no-repeat;
+		opacity: 0;
+	}
+
+	.umbra,
+	.penumbra,
+	.symbol,
+	img {
+		@include absolute-100;
+	}
+
+	img {
+		display: block;
+	}
+
+	.symbol {
+		background-color: $gray-200;
+		@include ease-in-out($raise-duration);
+	}
+
+	.tile.raise {
+		.umbra { animation-name: raise-umbra; }
+		.penumbra { animation-name: raise-penumbra; }
+		.symbol { animation-name: raise-tile; }
+	}
+
+	.tile.lower {
+		.umbra { animation-name: lower-umbra; }
+		.penumbra { animation-name: lower-penumbra; }
+		.symbol { animation-name: lower-tile; }
+	}
+}
+
+@keyframes raise-tile {
+	from { transform: translateZ(-200px) scale(#{ $tile-scale }); }
+	to { transform: translateZ(-100px) scale(#{ $tile-scale }); }
+}
+
+@keyframes lower-tile {
+	from { transform: translateZ(-100px) scale(#{ $tile-scale }); }
+	to { transform: translateZ(-200px) scale(#{ $tile-scale }); }
+}
+
+@keyframes raise-umbra {
+	from {
+		opacity: .3;
+		transform: translateY(2px) scale(1);
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(10px) scale(#{ $tile-scale });
+	}
+}
+
+@keyframes lower-umbra {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(#{ $tile-scale });
+	}
+
+	to {
+		opacity: .3;
+		transform: translateY(2px) scale(1);
+	}
+}
+
+@keyframes raise-penumbra {
+	from {
+		opacity: 0;
+		transform: translateY(2px) scale(1);
+	}
+
+	to {
+		opacity: .5;
+		transform: translateY(10px) scale(#{ $tile-scale });
+	}
+}
+
+@keyframes lower-penumbra {
+	from {
+		opacity: .5;
+		transform: translateY(10px) scale(#{ $tile-scale });
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(2px) scale(1);
+	}
+}

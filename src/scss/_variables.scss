@@ -1,0 +1,17 @@
+$body-bg: $gray-200;
+
+$board-sizes: (
+	xs: calc(100vw - #{ $spacer * 2 }),
+	sm: calc(576px - #{ $spacer * 2 }),
+);
+
+$tile-sizes: (
+	xs: calc(((100vw - #{ $spacer * 2 } + 1px) / 3) - #{ map-get($spacers, 1) } + 1px),
+	sm: calc(((576px - #{ $spacer * 2 } + 1px) / 3) - #{ map-get($spacers, 2) } + 1px),
+);
+
+$tile-scale: 1.4;
+$tile-perspective: 500;
+
+$flip-duration: 1s;
+$raise-duration: .5s;

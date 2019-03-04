@@ -1,0 +1,18 @@
+<template>
+	<div class="d-flex justify-content-between">
+		<div class="tile x-tile ${ host.xTileClass || '' }" watch-host="symbol-changed">
+			<div class="umbra"></div>
+			<div class="penumbra"></div>
+			<div class="symbol">
+				<img class="x-symbol" src="${ host.xSrc }" />
+			</div>
+		</div>
+		<div class="tile o-tile ${ host.oTileClass || '' }" watch-host="symbol-changed">
+			<div class="umbra"></div>
+			<div class="penumbra"></div>
+			<div class="symbol">
+				<img class="o-symbol" src="${ host.oSrc }" />
+			</div>
+		</div>
+	</div>
+</template>

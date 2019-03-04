@@ -1,0 +1,44 @@
+<template>
+	<header>
+		<h1>Tic Tac Toe</h1>
+		<div class="d-flex justify-content-between my-3">
+			<button type="button" title="Undo" onclick="host.undo()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
+				<img src="/img/back.svg" />
+			</button>
+
+			<div class="custom-control custom-switch">
+				<input type="checkbox" class="custom-control-input" id="zardoz" onchange="host.zardozMode = this.matches(':checked')">
+				<label class="custom-control-label" for="zardoz">Zardoz Mode</label>
+			</div>
+
+			<button type="button" title="Restart" onclick="host.restart()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
+				<img src="/img/restart.svg" />
+			</button>
+		</div>
+	</header>
+
+	<div class="board d-flex justify-content-between flex-wrap rendering" on-tile-flipped="host.tileFlipped(event)">
+		<div class="background" onanimationend="this.parentElement.classList.remove('rendering')">
+			<div></div>
+		</div>
+
+		<template for="tile" each="${ host.tiles }">
+			<board-tile symbol?="${ tile.symbol }" onclick="this.flip(host.nextSymbol)"></board-tile>
+		</template>
+
+		<svg class="winner-indicator" xmlns="http://www.w3.org/2000/svg" width="550" height="550" viewBox="0 0 550 550">
+			<path class="row1" d="M20 90h510" />
+			<path class="row2" d="M20 275h510" />
+			<path class="row3" d="M20 462h510" />
+
+			<path class="column1" d="M88 20v510" />
+			<path class="column2" d="M275 20v510" />
+			<path class="column3" d="M462 20v510" />
+
+			<path class="diagonal1 diagonal" d="M20 20L530 530" />
+			<path class="diagonal2 diagonal" d="M20 530L530 20" />
+		</svg>
+	</div>
+
+	<next-symbol class="mt-5" symbol="${ host.nextSymbol }" watch-host="tile-flipped; symbols-loaded"></next-symbol>
+</template>
