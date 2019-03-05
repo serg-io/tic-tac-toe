@@ -21,7 +21,7 @@
     "build-html-esm": "infuse --configs-path \"../js/libs/infuse.host/configs.js\" --cwd build/tmp html/**/*.html build/src",
     "build-html-postminify": "bin/minify.js \"html/**/*.html\" build/src build/dist",
     "build-js": "npm-run-all build-js-*",
-    "build-js-libs": "bin/minify.js \"{infuse*,configs,Watch,utils,sweep}.js\" node_modules/infuse.host/src build/dist/js/libs/infuse.host",
+    "build-js-libs": "bin/minify.js \"{infuse*,configs,Watch,utils,sweep}.js\" node_modules/infuse.host/src build/dist/js/libs/infuse.host && cpx node_modules/@webcomponents/custom-elements/custom-elements.min.js build/dist/js/libs/",
     "build-js-minify": "bin/minify.js \"js/**/*.js\" src build/dist",
     "build-js-bundle": "webpack -p",
     "lint": "npm-run-all lint-*",
@@ -42,6 +42,7 @@
     "koa-static": "^5.0.0"
   },
   "devDependencies": {
+    "@webcomponents/custom-elements": "^1.2.1",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-preset-env": "^1.7.0",
     "bootstrap": "^4.3.1",

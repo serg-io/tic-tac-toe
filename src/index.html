@@ -9,6 +9,12 @@
 	</head>
 	<body>
 		<tic-tac-toe></tic-tac-toe>
+		<script>
+			// Add polyfill if custom elements are not supported by the browser.
+			if (!window.customElements) {
+				document.write('<script src="/js/libs/custom-elements.min.js"></' + 'script>');
+			}
+		</script>
 		<script type="module" src="/js/TicTacToe.js"></script>
 		<script nomodule src="/js/bundle.js"></script>
 	</body>
