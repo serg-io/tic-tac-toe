@@ -1,6 +1,9 @@
 .board {
 	position: relative;
 
+	/**
+	 * Assign a responsive width and heigth to the board.
+	 */
 	@each $name, $width in $board-sizes {
 		@include media-breakpoint-up($name, $grid-breakpoints) {
 			width: $width;
@@ -8,6 +11,9 @@
 		}
 	}
 
+	/**
+	 * The background sits behind the tiles and is animated when the page is loaded.
+	 */
 	.background {
 		display: flex;
 		align-items: center;
@@ -15,6 +21,11 @@
 		overflow: hidden;
 		@include absolute-100;
 
+		/**
+		 * This div has the same size as the tiles in the board and sits behind the center tile.
+		 * When the page is loaded, this div is animated to grow and occupy the entire size of the
+		 * board.
+		 */
 		& > div {
 			@include responsive-tile;
 			will-change: transform;

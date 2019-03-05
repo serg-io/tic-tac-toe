@@ -1,20 +1,24 @@
+// Import Bootstrap functions and default variables.
 @import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
 
+// Import variables used in other SCSS files in this directory.
 @import "variables";
 
+// Import Bootstrap mixins.
 @import "../../node_modules/bootstrap/scss/mixins";
 
+// Import mixins used in other SCSS files in this directory.
 @import "mixins";
 
+// Import ONLY the Bootstrap SCSS modules that are used by this application.
 @import "../../node_modules/bootstrap/scss/reboot";
 @import "../../node_modules/bootstrap/scss/type";
-
 @import "../../node_modules/bootstrap/scss/custom-forms";
-
 @import "../../node_modules/bootstrap/scss/utilities/display";
 @import "../../node_modules/bootstrap/scss/utilities/flex";
 
+// Import SCSS modules with custom CSS for this application.
 @import "header";
 @import "tic-tac-toe";
 @import "board";

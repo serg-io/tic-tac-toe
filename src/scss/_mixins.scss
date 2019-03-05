@@ -1,3 +1,6 @@
+/**
+ * Absolutely positions an element and makes it occupy 100% of the size of its parent.
+ */
 @mixin absolute-100 {
 	position: absolute;
 	top: 0;
@@ -6,6 +9,9 @@
 	height: 100%;
 }
 
+/**
+ * Mixin to assign a responsive width and height to a tile.
+ */
 @mixin responsive-tile {
 	@each $name, $width in $board-sizes {
 		@include media-breakpoint-up($name, $grid-breakpoints) {
@@ -17,6 +23,9 @@
 	}
 }
 
+/**
+ * Mixin with common animation properties.
+ */
 @mixin ease-in-out($duration) {
 	animation-duration: $duration;
 	animation-timing-function: ease-in-out;

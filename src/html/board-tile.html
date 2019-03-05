@@ -1,7 +1,14 @@
 <template>
+	<!-- The shadows are initially hidden (they're flipped 180deg). -->
 	<div class="umbra"></div>
 	<div class="penumbra"></div>
 
+	<!--
+		Initially, the front side is shown and the back side is hidden (is flipped 180deg).
+		The back side contains the images for the X and O symbols. The tile is flipped and an image
+		is shown when the "symbol" attribute of the `host` changes. The image shown depends on the
+		value of the "symbol" attribute.
+	-->
 	<div class="front"></div>
 	<div class="back">
 		<img class="x-symbol" src="${ host.xSrc }" />

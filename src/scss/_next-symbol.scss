@@ -1,6 +1,10 @@
 next-symbol {
 	display: block;
+	margin-top: map-get($spacers, 5);
 
+	/**
+	 * Set a responsive size to the tiles inside the <next-symbol> element.
+	 */
 	.tile {
 		position: relative;
 		will-change: transform;
@@ -9,22 +13,24 @@ next-symbol {
 		@include responsive-tile;
 	}
 
+	/**
+	 * Each tile has two shadows that are animated when the tiles are raised/lowered.
+	 */
 	.umbra,
 	.penumbra {
 		pointer-events: none;
 		@include ease-in-out($raise-duration);
 	}
-
 	.umbra {
 		background: url("../img/umbra.svg") center center/100% no-repeat;
 		opacity: .3;
 	}
-
 	.penumbra {
 		background: url("../img/penumbra.svg") center center/100% no-repeat;
 		opacity: 0;
 	}
 
+	// Absolutely position the contents of the tiles.
 	.umbra,
 	.penumbra,
 	.symbol,
@@ -32,6 +38,7 @@ next-symbol {
 		@include absolute-100;
 	}
 
+	// Unlike the <board-tile>, images in the <next-symbol> are always displayed.
 	img {
 		display: block;
 	}
@@ -41,12 +48,14 @@ next-symbol {
 		@include ease-in-out($raise-duration);
 	}
 
+	// Set the animations for when a tile is raised.
 	.tile.raise {
 		.umbra { animation-name: raise-umbra; }
 		.penumbra { animation-name: raise-penumbra; }
 		.symbol { animation-name: raise-tile; }
 	}
 
+	// Set the animations for when a tile is lowered.
 	.tile.lower {
 		.umbra { animation-name: lower-umbra; }
 		.penumbra { animation-name: lower-penumbra; }

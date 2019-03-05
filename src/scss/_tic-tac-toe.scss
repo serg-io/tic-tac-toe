@@ -2,17 +2,12 @@ tic-tac-toe {
 	display: block;
 	margin: $spacer auto;
 
+	/**
+	 * Set a responsive size for the <tic-tac-toe> element.
+	 */
 	@each $name, $width in $board-sizes {
 		@include media-breakpoint-up($name, $grid-breakpoints) {
 			width: $width;
 		}
-	}
-
-	.controls {
-		margin: map-get($spacers, 3) 0;
-	}
-
-	next-symbol {
-		margin-top: map-get($spacers, 5);
 	}
 }

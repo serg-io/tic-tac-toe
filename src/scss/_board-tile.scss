@@ -4,12 +4,18 @@ board-tile {
 	will-change: transform;
 	perspective: #{ $tile-perspective }px;
 
+	// Assign a responsive size to each tile.
 	@include responsive-tile;
 
+	// Disable mouse events if the tile has a symbol assigned.
 	&[symbol] {
 		pointer-events: none;
 	}
 
+	/**
+	 * Space the tiles vertically by setting the "margin-bottom" of the first 6 tiles to auto and
+	 * the "margin-top" of the last 6 tiles to auto.
+	 */
 	&:nth-of-type(-n+6) {
 		margin-bottom: auto;
 	}
@@ -17,6 +23,10 @@ board-tile {
 		margin-top: auto;
 	}
 
+	/**
+	 * The symbol images are not displayed initially. The corresponding symbol image is shown when
+	 * the <board-tile> has a "symbol" attribute.
+	 */
 	img {
 		display: none;
 		@include absolute-100;
@@ -30,6 +40,9 @@ board-tile {
 		display: block;
 	}
 
+	/**
+	 * Each tile has two shadows that are animated when the tile is flipped.
+	 */
 	.umbra,
 	.penumbra {
 		@include absolute-100;
@@ -38,17 +51,16 @@ board-tile {
 
 		@include ease-in-out($flip-duration);
 	}
-
 	.umbra {
 		background: url("../img/umbra.svg") center center/100% no-repeat;
 		opacity: .3;
 	}
-
 	.penumbra {
 		background: url("../img/penumbra.svg") center center/100% no-repeat;
 		opacity: 0;
 	}
 
+	// Front and back sides of the tile.
 	.front,
 	.back {
 		@include absolute-100;
@@ -62,10 +74,15 @@ board-tile {
 		@include ease-in-out($flip-duration);
 	}
 
+	// The back side of the tile is initially rotated 180deg.
 	.back {
 		transform: rotateY(180deg);
 	}
 
+	/**
+	 * Pause all animations when the board is still rendering. The "rendering" class is removed
+	 * when the background of the board finishes animating.
+	 */
 	.board.rendering & {
 		.umbra,
 		.penumbra,
@@ -75,6 +92,9 @@ board-tile {
 		}
 	}
 
+	/**
+	 * When the tile if flipping, increase its z-index and animate the shadows.
+	 */
 	&.flipping {
 		z-index: 100;
 
@@ -82,11 +102,16 @@ board-tile {
 		.penumbra { animation-name: flip-penumbra; }
 	}
 
+	/**
+	 * Set the corresponding animation for the front and back sides of the tile based on the
+	 * "flip-side-up" attribute of the <board-tile>. If the "flip-side-up" attribute is "front",
+	 * the front side is flipped up and the back side is flipped down. If the attribute is "back",
+	 * the front side is flipped down and the back side is flipped up.
+	 */
 	&[flip-side-up="front"] {
 		.front { animation-name: flip-side-up; }
 		.back { animation-name: flip-side-down; }
 	}
-
 	&[flip-side-up="back"] {
 		.front { animation-name: flip-side-down; }
 		.back { animation-name: flip-side-up; }

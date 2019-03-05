@@ -1,11 +1,20 @@
+/**
+ * SVG overlay that indicates the winning row, column, or diagonal.
+ */
 svg.winner-indicator {
+	// The overlay is hidden by default.
 	display: none;
 	@include absolute-100;
 
+	// Show the overlay if the <svg> has a "data-winner" attribute.
 	&[data-winner] {
 		display: block;
 	}
 
+	/**
+	 * Set the "stroke-dasharray" and "stroke-dashoffset" of <path> elements so that no path is
+	 * initially visible.
+	 */
 	path {
 		fill: none;
 		stroke-width: 10;
@@ -14,12 +23,14 @@ svg.winner-indicator {
 		stroke-dashoffset: 510;
 		stroke: map-get($theme-colors, "primary");
 	}
-
 	.diagonal {
 		stroke-dasharray: 722;
 		stroke-dashoffset: 722;
 	}
 
+	/**
+	 * Use the "data-winner" attribute to display/animate the corresponding <path>.
+	 */
 	@each $i in 1, 2, 3 {
 		@each $type in row, column {
 			&[data-winner="#{ $type }#{ $i }"] path.#{ $type }#{ $i } {
@@ -27,7 +38,6 @@ svg.winner-indicator {
 			}
 		}
 	}
-
 	@each $i in 1, 2 {
 		&[data-winner="diagonal#{ $i }"] path.diagonal#{ $i } {
 			animation: winning-diagonal 1s linear 1s forwards;

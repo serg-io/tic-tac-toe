@@ -1,13 +1,28 @@
 import Host from './Host.js';
 import templ from '../html/tic-tac-toe.html';
 
+/**
+ * The tic tac toe template uses <board-tile> and <next-symbol> custom elements. Class definitions
+ * for those elements must be imported here in order for the elements to work properly.
+ */
 import './BoardTile.js';
 import './NextSymbol.js';
 
+// Paths to use a X and O symbols respectively when the Zardos mode is on.
 const ZARDOZ_X = '/img/square.svg';
 const ZARDOZ_O = '/img/zardoz01.jpg';
 
-// TODO: Is a polyfill needed?
+/**
+ * Uses the `symbol` query parameter in the URL to create an array of symbols. The returned array
+ * will always have a length of 9. If the `symbols` query parameter is not present in the URL, the
+ * return array will have 9 `null` values. For instance if the URL contains `?symbols=xx-o--o--`,
+ * this function will return: `['x', 'x', null, 'o', null, null, 'o', null, null]`
+ *
+ * TODO: Is polyfill needed?
+ *
+ * @function parseSymbolsFromURL
+ * @returns {string[]}
+ */
 export function parseSymbolsFromURL() {
 	const params = new URLSearchParams(window.location.search);
 	const symbols = (params.get('symbols') || '').toLowerCase().split('').map(
@@ -21,17 +36,39 @@ export function parseSymbolsFromURL() {
 	return symbols;
 }
 
+/**
+ * Class definition for the <tic-tac-toe> custom element.
+ */
 export default class TicTacToe extends Host {
+	/**
+	 * Constructor. If it exists, it parses the `symbols` query parameter from the URL. The result
+	 * is assigned to `this.tiles` as an array of objects. Once rendered, `this.tiles` becomes an
+	 * array of <board-tile> custom elements.
+	 *
+	 * @constructor
+	 */
 	constructor() {
 		super();
 		this.tiles = parseSymbolsFromURL().map(symbol => ({ symbol }));
 	}
 
+	/**
+	 * This getter returns the template to use when the element is rendered.
+	 */
 	// eslint-disable-next-line class-methods-use-this
 	get template() {
 		return templ;
 	}
 
+	/**
+	 * The `connectedCallback` method is overwritten here to:
+	 *
+	 *   * Check if there's a winner (in case the URL contains a `symbols` query parameter).
+	 *   * Listen for `onpopstate` (for when the "undo" or the back browser buttons are clicked).
+	 *   * Obtains all the tiles in the board and assigns the resulting array to `this.tiles`.
+	 *
+	 * @method connectedCallback
+	 */
 	connectedCallback() {
 		super.connectedCallback();
 
@@ -41,6 +78,14 @@ export default class TicTacToe extends Host {
 		this.tiles = this.queryAll('board-tile');
 	}
 
+	/**
+	 * Parses the `symbols` query parameter in the URL and assigns the parsed symbols to the
+	 * corresponding tiles in the board. This is meant to be use as callback for the history
+	 * popstate event, which is triggered when the "undo" button or the back browser button are
+	 * clicked.
+	 *
+	 * @method load
+	 */
 	load() {
 		const symbols = parseSymbolsFromURL();
 
@@ -56,6 +101,11 @@ export default class TicTacToe extends Host {
 		this.updateWinner();
 	}
 
+	/**
+	 * Checks if there's a winner and if there is, it shows the SVG overlay showing the winner.
+	 *
+	 * @method updateWinner
+	 */
 	updateWinner() {
 		const winner = this.findWinner();
 		const svg = this.query('.winner-indicator');
@@ -67,6 +117,12 @@ export default class TicTacToe extends Host {
 		}
 	}
 
+	/**
+	 * If there's a winner, it returns the row, column, or diagonal that won the game.
+	 *
+	 * @method findWinner
+	 * @return {string} The winning row, column, or diagonal, or `null` if there's not winner.
+	 */
 	findWinner() {
 		const symbols = this.tiles.map(tile => tile.symbol);
 
@@ -93,6 +149,9 @@ export default class TicTacToe extends Host {
 		return null;
 	}
 
+	/**
+	 * This getter determines what the next symbol is, either "x" or "o".
+	 */
 	get nextSymbol() {
 		let exes = 0;
 		let os = 0;
@@ -108,6 +167,13 @@ export default class TicTacToe extends Host {
 		return exes > os ? 'o' : 'x';
 	}
 
+	/**
+	 * Obtains all the symbols of the <board-tile> elements, checks if there's a winner, and
+	 * updates the `symbols` query parameter in the URL. This is meant to be used as callback for
+	 * "tile-flipped" custom events, which are dispatched by the <board-tile> custom elements.
+	 *
+	 * @method tileFlipped
+	 */
 	tileFlipped() {
 		const symbols = this.tiles.map(tile => tile.symbol || '-').join('');
 
@@ -116,6 +182,12 @@ export default class TicTacToe extends Host {
 		window.history.pushState(null, '', `?symbols=${ symbols }`);
 	}
 
+	/**
+	 * Reverts the previous action by going back in the browser history. This is meant to be called
+	 * when the "undo" button is clicked.
+	 *
+	 * @method undo
+	 */
 	// eslint-disable-next-line class-methods-use-this
 	undo(event) {
 		window.history.back();
@@ -125,24 +197,41 @@ export default class TicTacToe extends Host {
 		}
 	}
 
+	/**
+	 * Restarts the game, by assigning `null` as the `symbol` of all <board-tile> elements, and
+	 * pushes a new state into the browser history.
+	 *
+	 * @method restart
+	 */
 	restart() {
 		this.tiles.forEach((tile) => {
 			// eslint-disable-next-line no-param-reassign
 			tile.symbol = null;
 		});
+		// Remove the SVG overlay if it was visible.
 		this.updateWinner();
 		window.history.pushState(null, '', '/');
 		this.dispatch('symbols-loaded');
 	}
 
+	/**
+	 * This getter can be used to determine if the user can go back.
+	 */
 	get canGoBack() {
 		const tileWithSymbol = this.tiles.find(tile => tile.symbol !== null);
 		return !!tileWithSymbol;
 	}
 
+	/**
+	 * This setter turns on/off the Zardoz mode.
+	 */
 	set zardozMode(on) {
-		const xSrc = on ? ZARDOZ_X : null;
-		const oSrc = on ? ZARDOZ_O : null;
+		/**
+		 * If the given value is `true`, use `ZARDOZ_X` and `ZARDOZ_O` as the `xSrc` and `oSrc`
+		 * properties of all the <board-tile> elements and the <next-symbol> element.
+		 */
+		const xSrc = on === true ? ZARDOZ_X : null;
+		const oSrc = on === true ? ZARDOZ_O : null;
 		const nextSymbolEl = this.query('next-symbol');
 		const tiles = [nextSymbolEl, ...this.tiles];
 
@@ -155,4 +244,5 @@ export default class TicTacToe extends Host {
 	}
 }
 
+// Define the <tic-tac-toe> element.
 window.customElements.define('tic-tac-toe', TicTacToe);

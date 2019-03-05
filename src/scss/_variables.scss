@@ -1,17 +1,28 @@
+// Change Bootstrap's variable for the background color of the <body>.
 $body-bg: $gray-200;
 
+/**
+ * This map defines the size of the Tic Tac Toe board for extra small (xs) and small (sm and above)
+ * screen. In xs screens the size of the board is based on the width of the view port. In sm (and
+ * above) screens the size of the board is limited to 576px minus two times the $spacer.
+ */
 $board-sizes: (
 	xs: calc(100vw - #{ $spacer * 2 }),
 	sm: calc(576px - #{ $spacer * 2 }),
 );
 
+/**
+ * This map defines the size of each tile on the Tic Tac Toe board.
+ */
 $tile-sizes: (
 	xs: calc(((100vw - #{ $spacer * 2 } + 1px) / 3) - #{ map-get($spacers, 1) } + 1px),
 	sm: calc(((576px - #{ $spacer * 2 } + 1px) / 3) - #{ map-get($spacers, 2) } + 1px),
 );
 
+// Scale and perspective variables used to animate the tiles.
 $tile-scale: 1.4;
 $tile-perspective: 500;
 
+// Duration of animations.
 $flip-duration: 1s;
 $raise-duration: .5s;

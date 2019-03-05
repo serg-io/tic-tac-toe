@@ -4,6 +4,12 @@ header {
 		text-align: center;
 	}
 
+	// Container for the undo, restart, and the zardoz toggle buttons.
+	.controls {
+		margin: map-get($spacers, 3) 0;
+	}
+
+	// Undo and restart buttons.
 	button {
 		width: 24px;
 		height: 24px;
@@ -15,7 +21,6 @@ header {
 			opacity: .4;
 		}
 	}
-
 	img {
 		display: block;
 		width: 100%;

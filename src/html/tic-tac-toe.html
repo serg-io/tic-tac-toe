@@ -2,43 +2,67 @@
 	<header>
 		<h1>Tic Tac Toe</h1>
 		<div class="controls d-flex justify-content-between">
+			<!--
+				Undo button. When clicked, this button reverts the previous action by going back to the previous page in the browser history.
+				This button is disabled if none of the tiles on the board have a symbol. The disabled attribute is updated every time a
+				"tile-flipped" event reaches the host (the <tic-tac-toe> element) or when the host triggers a "symbols-loaded" event.
+			-->
 			<button type="button" title="Undo" onclick="host.undo()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
 				<img src="/img/back.svg" />
 			</button>
 
+			<!-- This checkbox toggles on and off the Zardoz mode. -->
 			<div class="custom-control custom-switch">
 				<input type="checkbox" class="custom-control-input" id="zardoz" onchange="host.zardozMode = this.matches(':checked')">
 				<label class="custom-control-label" for="zardoz">Zardoz Mode</label>
 			</div>
 
+			<!--
+				When clicked, this button starts a new game. This button is disabled when none of the tiles on the board have a symbol.
+				The disabled attribute is updated every time a "tile-flipped" event reaches the host (the <tic-tac-toe> element) or when the host
+				dispatches a "symbols-loaded" event.
+			-->
 			<button type="button" title="Restart" onclick="host.restart()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
 				<img src="/img/restart.svg" />
 			</button>
 		</div>
 	</header>
 
-	<div class="board d-flex justify-content-between flex-wrap rendering" on-tile-flipped="host.tileFlipped(event)">
+	<div class="board d-flex justify-content-between flex-wrap rendering" on-tile-flipped="host.tileFlipped()">
 		<div class="background" onanimationend="this.parentElement.classList.remove('rendering')">
 			<div></div>
 		</div>
 
+		<!--
+			Iterate over `host.tiles` to create <board-tile> elements. The `tiles` property of the `host` is assign
+			in the `TicTacToe` class constructor. Whenever a <board-tile> element is clicked, the `flip` method of
+			the tile is called using the `host.nextSymbol`, which assigns the "next" symbol to the tile.
+		-->
 		<template for="tile" each="${ host.tiles }">
 			<board-tile symbol?="${ tile.symbol }" onclick="this.flip(host.nextSymbol)"></board-tile>
 		</template>
 
+		<!-- SVG overlay to show the winning row, column, or diagonal. -->
 		<svg class="winner-indicator" xmlns="http://www.w3.org/2000/svg" width="550" height="550" viewBox="0 0 550 550">
+			<!-- Rows -->
 			<path class="row1" d="M20 90h510" />
 			<path class="row2" d="M20 275h510" />
 			<path class="row3" d="M20 462h510" />
 
+			<!-- Columns -->
 			<path class="column1" d="M88 20v510" />
 			<path class="column2" d="M275 20v510" />
 			<path class="column3" d="M462 20v510" />
 
+			<!-- Diagonals -->
 			<path class="diagonal1 diagonal" d="M20 20L530 530" />
 			<path class="diagonal2 diagonal" d="M20 530L530 20" />
 		</svg>
 	</div>
 
+	<!--
+		This custom element indicates what the next symbol is. It's updated every time a "tile-flipped" event
+		reaches the `host` (the <tic-tac-toe> element) or when the `host` dispatches a "symbols-loaded" event.
+	-->
 	<next-symbol symbol="${ host.nextSymbol }" watch-host="tile-flipped; symbols-loaded"></next-symbol>
 </template>

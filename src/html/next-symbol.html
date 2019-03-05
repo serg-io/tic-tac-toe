@@ -1,5 +1,11 @@
+<!--
+	The <next-symbol> element contains 2 tiles: one for the X symbol and another for the O symbol.
+	Whenever the "symbol" attribute of the <next-symbol> changes, the corresponding tile is raised
+	while the other is lowered.
+-->
 <template>
 	<div class="d-flex justify-content-between">
+		<!-- Tile of the X symbol. -->
 		<div class="tile x-tile ${ host.xTileClass || '' }" watch-host="symbol-changed">
 			<div class="umbra"></div>
 			<div class="penumbra"></div>
@@ -7,6 +13,8 @@
 				<img class="x-symbol" src="${ host.xSrc }" />
 			</div>
 		</div>
+
+		<!-- Tile of the O symbol. -->
 		<div class="tile o-tile ${ host.oTileClass || '' }" watch-host="symbol-changed">
 			<div class="umbra"></div>
 			<div class="penumbra"></div>
