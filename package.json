@@ -29,7 +29,6 @@
     "lint-js": "eslint src/js/*.js",
     "start": "npm-run-all build server",
     "server": "node src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npm-run-all build-clean --parallel watch-*",
     "watch-css": "nodemon --watch src/scss --ext scss --exec \"npm run lint-css && npm run build-css\"",
     "watch-html": "nodemon --watch src/html --ext html --exec \"npm run build-html\"",
@@ -43,8 +42,6 @@
   },
   "devDependencies": {
     "@webcomponents/custom-elements": "^1.2.1",
-    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
-    "babel-preset-env": "^1.7.0",
     "bootstrap": "^4.3.1",
     "clean-css-cli": "^4.2.1",
     "cpx": "^1.5.0",

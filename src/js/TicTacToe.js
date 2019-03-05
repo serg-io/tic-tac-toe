@@ -18,8 +18,6 @@ const ZARDOZ_O = '/img/zardoz01.jpg';
  * return array will have 9 `null` values. For instance if the URL contains `?symbols=xx-o--o--`,
  * this function will return: `['x', 'x', null, 'o', null, null, 'o', null, null]`
  *
- * TODO: Is polyfill needed?
- *
  * @function parseSymbolsFromURL
  * @returns {string[]}
  */
