@@ -10,7 +10,7 @@
     "url": "git+https://github.com/serg-io/tic-tac-toe.git"
   },
   "scripts": {
-    "build": "npm-run-all build-clean --parallel build-css build-html build-js",
+    "build": "npm-run-all build-clean build-css build-html build-js",
     "build-clean": "rimraf build",
     "build-css": "npm-run-all build-css-*",
     "build-css-dirs": "mkdirp build/src/css build/dist/css",
@@ -19,10 +19,11 @@
     "build-html": "npm-run-all build-html-*",
     "build-html-preminify": "html-minifier --collapse-whitespace --remove-comments --input-dir src/html --output-dir build/tmp/html",
     "build-html-esm": "infuse --configs-path \"../js/libs/infuse.host/configs.js\" --cwd build/tmp html/**/*.html build/src",
-    "build-html-postminify": "bin/minify.js html/**/*.html build/src build/dist",
+    "build-html-postminify": "bin/minify.js \"html/**/*.html\" build/src build/dist",
     "build-js": "npm-run-all build-js-*",
-    "build-js-libs": "bin/minify.js {infuse*,configs,Watch,utils,sweep}.js node_modules/infuse.host/src build/dist/js/libs/infuse.host",
-    "build-js-minify": "bin/minify.js js/**/*.js src build/dist",
+    "build-js-libs": "bin/minify.js \"{infuse*,configs,Watch,utils,sweep}.js\" node_modules/infuse.host/src build/dist/js/libs/infuse.host",
+    "build-js-minify": "bin/minify.js \"js/**/*.js\" src build/dist",
+    "build-js-bundle": "webpack -p",
     "lint": "npm-run-all lint-*",
     "lint-css": "stylelint src/scss/**/*.scss",
     "lint-js": "eslint src/js/*.js",
@@ -52,6 +53,7 @@
     "glob": "^7.1.3",
     "html-minifier": "^3.5.21",
     "infuse-cli": "^0.1.1",
+    "infuse-loader": "^0.2.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
@@ -59,6 +61,8 @@
     "rimraf": "^2.6.3",
     "stylelint": "^9.10.1",
     "stylelint-config-twbs-bootstrap": "^0.3.0",
-    "terser": "^3.16.1"
+    "terser": "^3.16.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
   }
 }
