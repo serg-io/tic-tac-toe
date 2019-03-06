@@ -26,26 +26,29 @@
     "lint:js": "eslint src/js/*.js",
 
     "prebuild:dirs": "mkdirp build/dist/v$npm_package_version/css build/dist/v$npm_package_version/js/libs build/prebuild/v$npm_package_version/js/libs",
-    "prebuild:css": "rsync -rm src/scss/* build/tmp-scss",
+    "prebuild:css": "rsync -rm src/scss/* build/tmp-scss/",
     "prebuild:index": "rsync src/index.html build/prebuild/",
     "prebuild:html": "html-minifier --collapse-whitespace --remove-comments --input-dir src/html --output-dir build/tmp/html",
-    "prebuild:js": "rsync -rm src/js/* build/prebuild/v$npm_package_version/js",
+    "prebuild:js": "rsync -rm src/js/* build/prebuild/v$npm_package_version/js/",
 
-    "build:css:version": "find build/tmp-scss -type f -name \"*.scss\" -exec sed -i -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
+    "build:css:version": "find build/tmp-scss -type f -name \"*.scss\" -exec sed -i\"\" -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
     "build:css:compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 build/tmp-scss/style.scss build/prebuild/v$npm_package_version/css/style.css",
-    "build:img": "rsync -rm src/img/* build/dist/v$npm_package_version/img",
-    "build:index:version": "sed -i -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" build/prebuild/index.html",
-    "build:html:version": "find build/tmp/html -type f -name \"*.html\" -exec sed -i -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
-    "build:html:esm": "infuse --configs-path \"/v$npm_package_version/js/libs/infuse.host/configs.js\" --cwd build/tmp html/**/*.html build/prebuild/v$npm_package_version",
-    "build:js:version": "find build/prebuild/v$npm_package_version/js -type f -name \"*.js\" -exec sed -i -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
+    "build:img": "rsync -rm src/img/* build/dist/v$npm_package_version/img/",
+    "build:index:version": "sed -i\"\" -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" build/prebuild/index.html",
+    "build:html:version": "find build/tmp/html -type f -name \"*.html\" -exec sed -i\"\" -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
+    "build:html:esm": "infuse --configs-path \"../js/libs/infuse.host/configs.js\" --cwd build/tmp html/**/*.html build/prebuild/v$npm_package_version",
+    "build:js:version": "find build/prebuild/v$npm_package_version/js -type f -name \"*.js\" -exec sed -i\"\" -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
     "build:js:infuse": "rsync node_modules/infuse.host/src/{infuse*,configs,Watch,utils,sweep}.js build/prebuild/v$npm_package_version/js/libs/infuse.host/",
-    "build:js:polyfill": "rsync node_modules/@webcomponents/custom-elements/custom-elements.min.js build/dist/v$npm_package_version/js/libs/",
 
     "postbuild:css": "cleancss --source-map --source-map-inline-sources --skip-rebase --output build/dist/v$npm_package_version/css/style.css build/prebuild/v$npm_package_version/css/style.css",
     "postbuild:index:minify": "html-minifier --collapse-whitespace --remove-comments --minify-js --output build/dist/index.html build/prebuild/index.html",
     "postbuild:html": "bin/minify.js \"v$npm_package_version/html/**/*.js\" build/prebuild build/dist",
     "postbuild:js": "bin/minify.js \"v$npm_package_version/js/**/*.js\" build/prebuild build/dist",
+    "postbuild:polyfill": "rsync node_modules/@webcomponents/custom-elements/custom-elements.min.js build/dist/v$npm_package_version/js/libs/",
     "postbuild:webpack": "webpack -p",
+
+    "pretest": "npm-run-all clean prebuild:dirs prebuild:html prebuild:js build:html:* build:js:* && rsync -rm --exclude=TestEnvironment.js src/tests/* build/prebuild/v$npm_package_version/tests/",
+    "test": "jest",
 
     "watch:css": "nodemon --watch src/scss --ext scss --exec \"npm run dev:css\"",
     "watch:index": "nodemon --watch src --ext html --ignore html/ --ignore img/ --ignore js/ --ignore scss/ --exec \"npm run dev:index\"",
@@ -54,13 +57,23 @@
     "watch:js": "nodemon --watch src/js --ext js --exec \"npm run dev:js\"",
     "watch:server": "nodemon --watch src/server.js --exec \"npm run server\""
   },
+  "jest": {
+    "testEnvironment": "<rootDir>/src/tests/TestEnvironment.js",
+    "testRegex": "build\\/prebuild\\/v.+\\/tests\\/.+\\.js",
+    "transform": {
+      "^.+\\.(js|html)$": "babel-jest"
+    }
+  },
   "dependencies": {
     "infuse.host": "^0.3.1",
     "koa": "^2.7.0",
     "koa-static": "^5.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "@webcomponents/custom-elements": "^1.2.1",
+    "babel-jest": "^24.1.0",
     "bootstrap": "^4.3.1",
     "clean-css-cli": "^4.2.1",
     "eslint": "^5.15.0",
@@ -70,6 +83,7 @@
     "html-minifier": "^3.5.21",
     "infuse-cli": "^0.1.1",
     "infuse-loader": "^0.2.0",
+    "jest": "^24.1.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
