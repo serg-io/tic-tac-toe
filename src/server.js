@@ -5,13 +5,15 @@ const app = new Koa();
 app.use(async (ctx, next) => {
 	await next();
 
-	if (ctx.url.startsWith('/html/') && ctx.type === 'text/html') {
+	if (ctx.url.indexOf('/html/') !== -1 && ctx.type === 'text/html') {
 		ctx.type = 'js';
 	}
 });
 
-app.use(serve('build/dist'));
+if (process.env.NODE_ENV !== 'production') {
+	app.use(serve('build/prebuild'));
+}
 
-app.use(serve('src'));
+app.use(serve('build/dist'));
 
 app.listen(3000);

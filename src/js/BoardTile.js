@@ -9,14 +9,14 @@ export default class BoardTile extends Host {
 	 * Default SVG image to use as the X symbol.
 	 */
 	static get DEFAULT_X() {
-		return '/img/x.svg';
+		return '{{ versionDir }}/img/x.svg';
 	}
 
 	/**
 	 * Default SVG image to use as the O symbol.
 	 */
 	static get DEFAULT_O() {
-		return '/img/o.svg';
+		return '{{ versionDir }}/img/o.svg';
 	}
 
 	/**

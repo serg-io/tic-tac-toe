@@ -22,11 +22,11 @@ next-symbol {
 		@include ease-in-out($raise-duration);
 	}
 	.umbra {
-		background: url("../img/umbra.svg") center center/100% no-repeat;
+		background: url("{{ versionDir }}/img/umbra.svg") center center/100% no-repeat;
 		opacity: .3;
 	}
 	.penumbra {
-		background: url("../img/penumbra.svg") center center/100% no-repeat;
+		background: url("{{ versionDir }}/img/penumbra.svg") center center/100% no-repeat;
 		opacity: 0;
 	}
 

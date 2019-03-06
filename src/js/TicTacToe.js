@@ -9,8 +9,8 @@ import './BoardTile.js';
 import './NextSymbol.js';
 
 // Paths to use a X and O symbols respectively when the Zardos mode is on.
-const ZARDOZ_X = '/img/square.svg';
-const ZARDOZ_O = '/img/zardoz01.jpg';
+const ZARDOZ_X = '{{ versionDir }}/img/square.svg';
+const ZARDOZ_O = '{{ versionDir }}/img/zardoz01.jpg';
 
 /**
  * Uses the `symbol` query parameter in the URL to create an array of symbols. The returned array
