@@ -277,7 +277,8 @@ describe('TicTacToe', () => {
 			ticTacToe.zardozMode = true;
 
 			expect(elements.length).toBe(10);
-			elements.forEach(el => {
+			expect(query).toHaveBeenCalled();
+			elements.forEach((el) => {
 				expect(el.xSrc).toMatch(TicTacToe.ZARDOZ_X);
 				expect(el.oSrc).toMatch(TicTacToe.ZARDOZ_O);
 			});
@@ -294,7 +295,8 @@ describe('TicTacToe', () => {
 			ticTacToe.zardozMode = false;
 
 			expect(elements.length).toBe(10);
-			elements.forEach(el => {
+			expect(query).toHaveBeenCalled();
+			elements.forEach((el) => {
 				expect(el.xSrc).toBeNull();
 				expect(el.oSrc).toBeNull();
 			});

@@ -33,6 +33,7 @@ class HTMLElement {
 		return this.attributes.has(key);
 	}
 
+	// eslint-disable-next-line class-methods-use-this
 	addEventListener() {
 	}
 }

@@ -16,7 +16,6 @@ describe('symbolChanged', () => {
 	});
 
 	test('sets the "flip-side-up" and "animation-symbol" attributes', () => {
-		const add = jest.fn();
 		const tile = new BoardTile();
 
 		tile.classList = { add: jest.fn() };

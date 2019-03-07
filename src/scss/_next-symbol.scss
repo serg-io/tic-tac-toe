@@ -3,6 +3,16 @@ next-symbol {
 	margin-top: map-get($spacers, 5);
 
 	/**
+	 * The tiles in <next-symbol> are not completely visible on screens that have a width greater
+	 * than of 490px and a height less than 810px. This media query fixes that problem by removing
+	 * the margin-top and scaling down the <next-symbol> and moving it up.
+	 */
+	@media (min-width: 490px) and (max-height: 810px) {
+		margin-top: 0;
+		transform: scale(.7) translateY(-20px);
+	}
+
+	/**
 	 * Set a responsive size to the tiles inside the <next-symbol> element.
 	 */
 	.tile {
