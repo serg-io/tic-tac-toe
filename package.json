@@ -1,6 +1,6 @@
 {
   "name": "tic-tac-toe",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Tic Tac Toe Web Application",
   "license": "MIT",
   "author": "Sergio Alcantara (https://github.com/serg-io)",
@@ -15,23 +15,19 @@
     "dev:index": "npm-run-all prebuild:index build:index:version",
     "dev:html": "npm-run-all prebuild:html build:html:*",
     "dev:js": "npm-run-all lint:js prebuild:js build:js:*",
-
     "clean": "rimraf build",
     "dist": "npm-run-all clean prebuild:* build:** postbuild:**",
     "start": "npm-run-all dist server",
     "server": "node src/server.js",
-
     "lint": "npm-run-all lint:*",
     "lint:css": "stylelint src/scss/**/*.scss",
     "lint:js": "eslint src/js/*.js",
     "lint:tests": "eslint src/tests/*.js",
-
     "prebuild:dirs": "mkdirp build/dist/v$npm_package_version/css build/dist/v$npm_package_version/js/libs build/prebuild/v$npm_package_version/js/libs",
     "prebuild:css": "rsync -rm src/scss/* build/tmp-scss/",
     "prebuild:index": "rsync src/index.html build/prebuild/",
     "prebuild:html": "html-minifier --collapse-whitespace --remove-comments --input-dir src/html --output-dir build/tmp/html",
     "prebuild:js": "rsync -rm src/js/* build/prebuild/v$npm_package_version/js/",
-
     "build:css:version": "find build/tmp-scss -type f -name \"*.scss\" -exec perl -i -pe\"s/\\{\\{\\s*versionDir\\s*\\}\\}/\\/v$npm_package_version/g\" {} \\;",
     "build:css:compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 build/tmp-scss/style.scss build/prebuild/v$npm_package_version/css/style.css",
     "build:img": "rsync -rm src/img/* build/dist/v$npm_package_version/img/",
@@ -40,20 +36,16 @@
     "build:html:esm": "infuse --configs-path \"../js/libs/infuse.host/configs.js\" --cwd build/tmp html/**/*.html build/prebuild/v$npm_package_version",
     "build:js:version": "find build/prebuild/v$npm_package_version/js -type f -name \"*.js\" -exec perl -i -pe\"s/\\{\\{\\s*versionDir\\s*\\}\\}/\\/v$npm_package_version/g\" {} \\;",
     "build:js:infuse": "rsync --exclude=parse* --exclude=create* --exclude=split* node_modules/infuse.host/src/*.js build/prebuild/v$npm_package_version/js/libs/infuse.host/",
-
     "postbuild:css": "cleancss --source-map --source-map-inline-sources --skip-rebase --output build/dist/v$npm_package_version/css/style.css build/prebuild/v$npm_package_version/css/style.css",
     "postbuild:index:minify": "html-minifier --collapse-whitespace --remove-comments --minify-js --output build/dist/index.html build/prebuild/index.html",
     "postbuild:html": "bin/minify.js \"v$npm_package_version/html/**/*.html\" build/prebuild build/dist",
     "postbuild:js": "bin/minify.js \"v$npm_package_version/js/**/*.js\" build/prebuild build/dist",
     "postbuild:polyfill": "rsync node_modules/@webcomponents/custom-elements/custom-elements.min.js build/dist/v$npm_package_version/js/libs/",
     "postbuild:webpack": "webpack -p",
-
     "pretest": "npm-run-all clean prebuild:dirs prebuild:html prebuild:js build:html:* build:js:* && rsync -rm --exclude=TestEnvironment.js src/tests/*.js build/prebuild/v$npm_package_version/tests/",
     "test": "jest",
-
     "preversion": "npm-run-all lint test",
     "postversion": "git push && git push --tags",
-
     "watch:css": "nodemon --watch src/scss --ext scss --exec \"npm run dev:css\"",
     "watch:index": "nodemon --watch src --ext html --ignore html/ --ignore img/ --ignore js/ --ignore scss/ --exec \"npm run dev:index\"",
     "watch:img": "nodemon --watch src/img --ext svg,jpg --exec \"npm run build:img\"",
