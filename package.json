@@ -43,7 +43,7 @@
 
     "postbuild:css": "cleancss --source-map --source-map-inline-sources --skip-rebase --output build/dist/v$npm_package_version/css/style.css build/prebuild/v$npm_package_version/css/style.css",
     "postbuild:index:minify": "html-minifier --collapse-whitespace --remove-comments --minify-js --output build/dist/index.html build/prebuild/index.html",
-    "postbuild:html": "bin/minify.js \"v$npm_package_version/html/**/*.js\" build/prebuild build/dist",
+    "postbuild:html": "bin/minify.js \"v$npm_package_version/html/**/*.html\" build/prebuild build/dist",
     "postbuild:js": "bin/minify.js \"v$npm_package_version/js/**/*.js\" build/prebuild build/dist",
     "postbuild:polyfill": "rsync node_modules/@webcomponents/custom-elements/custom-elements.min.js build/dist/v$npm_package_version/js/libs/",
     "postbuild:webpack": "webpack -p",
