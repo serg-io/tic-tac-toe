@@ -39,7 +39,7 @@
     "build:html:version": "find build/tmp/html -type f -name \"*.html\" -exec perl -i -pe\"s/\\{\\{\\s*versionDir\\s*\\}\\}/\\/v$npm_package_version/g\" {} \\;",
     "build:html:esm": "infuse --configs-path \"../js/libs/infuse.host/configs.js\" --cwd build/tmp html/**/*.html build/prebuild/v$npm_package_version",
     "build:js:version": "find build/prebuild/v$npm_package_version/js -type f -name \"*.js\" -exec perl -i -pe\"s/\\{\\{\\s*versionDir\\s*\\}\\}/\\/v$npm_package_version/g\" {} \\;",
-    "build:js:infuse": "rsync node_modules/infuse.host/src/{infuse*,configs,Watch,utils,sweep}.js build/prebuild/v$npm_package_version/js/libs/infuse.host/",
+    "build:js:infuse": "rsync --exclude=parse* --exclude=create* --exclude=split* node_modules/infuse.host/src/*.js build/prebuild/v$npm_package_version/js/libs/infuse.host/",
 
     "postbuild:css": "cleancss --source-map --source-map-inline-sources --skip-rebase --output build/dist/v$npm_package_version/css/style.css build/prebuild/v$npm_package_version/css/style.css",
     "postbuild:index:minify": "html-minifier --collapse-whitespace --remove-comments --minify-js --output build/dist/index.html build/prebuild/index.html",

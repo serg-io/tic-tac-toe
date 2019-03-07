@@ -10,6 +10,34 @@
 const JSDOMEnvironment = require('jest-environment-jsdom');
 
 /**
+ * Custom elements will be extended from this fake `HTMLElement` class.
+ */
+class HTMLElement {
+	constructor() {
+		this.attributes = new Map();
+	}
+
+	getAttribute(key) {
+		return this.attributes.get(key) || null;
+	}
+
+	setAttribute(key, value) {
+		return this.attributes.set(key, value);
+	}
+
+	removeAttribute(key) {
+		return this.attributes.delete(key);
+	}
+
+	hasAttribute(key) {
+		return this.attributes.has(key);
+	}
+
+	addEventListener() {
+	}
+}
+
+/**
  * Extend the `JSDOMEnvironment` to define a new `TestEnvironment`.
  */
 class TestEnvironment extends JSDOMEnvironment {
@@ -23,7 +51,7 @@ class TestEnvironment extends JSDOMEnvironment {
 		this.global.customElements = {
 			define: function define() {},
 		};
-		this.global.HTMLElement = class HTMLElement {};
+		this.global.HTMLElement = HTMLElement;
 	}
 
 	async teardown() {

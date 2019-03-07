@@ -8,10 +8,6 @@ import templ from '../html/tic-tac-toe.html';
 import './BoardTile.js';
 import './NextSymbol.js';
 
-// Paths to use a X and O symbols respectively when the Zardos mode is on.
-const ZARDOZ_X = '{{ versionDir }}/img/square.svg';
-const ZARDOZ_O = '{{ versionDir }}/img/zardoz01.jpg';
-
 /**
  * Uses the `symbol` query parameter in the URL to create an array of symbols. The returned array
  * will always have a length of 9. If the `symbols` query parameter is not present in the URL, the
@@ -40,6 +36,20 @@ export function parseSymbolsFromURL(search) {
  * Class definition for the <tic-tac-toe> custom element.
  */
 export default class TicTacToe extends Host {
+	/**
+	 * Path to the image to use as the X symbol when the Zardoz mode is on.
+	 */
+	static get ZARDOZ_X() {
+		return '{{ versionDir }}/img/square.svg';
+	}
+
+	/**
+	 * Path to the image to use as the O symbol when the Zardoz mode is on.
+	 */
+	static get ZARDOZ_O() {
+		return '{{ versionDir }}/img/zardoz01.jpg';
+	}
+
 	/**
 	 * Constructor. If it exists, it parses the `symbols` query parameter from the URL. The result
 	 * is assigned to `this.tiles` as an array of objects. Once rendered, `this.tiles` becomes an
@@ -230,8 +240,8 @@ export default class TicTacToe extends Host {
 		 * If the given value is `true`, use `ZARDOZ_X` and `ZARDOZ_O` as the `xSrc` and `oSrc`
 		 * properties of all the <board-tile> elements and the <next-symbol> element.
 		 */
-		const xSrc = on === true ? ZARDOZ_X : null;
-		const oSrc = on === true ? ZARDOZ_O : null;
+		const xSrc = on === true ? TicTacToe.ZARDOZ_X : null;
+		const oSrc = on === true ? TicTacToe.ZARDOZ_O : null;
 		const nextSymbolEl = this.query('next-symbol');
 		const tiles = [nextSymbolEl, ...this.tiles];
 

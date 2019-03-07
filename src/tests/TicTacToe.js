@@ -1,11 +1,9 @@
 import TicTacToe, { parseSymbolsFromURL } from '../js/TicTacToe.js';
 
-const NO_SYMBOLS = [null, null, null, null, null, null, null, null, null];
-
 describe('parseSymbolsFromURL', () => {
 	test('returns an array with no symbols when called with an empty string', () => {
 		const symbols = parseSymbolsFromURL('');
-		expect(symbols).toEqual(NO_SYMBOLS);
+		expect(symbols).toEqual([null, null, null, null, null, null, null, null, null]);
 	});
 
 	test('parses "x" and "o" symbols', () => {
@@ -147,7 +145,7 @@ describe('TicTacToe', () => {
 			window.history.pushState(null, '', '?symbols=x--o--x--');
 		});
 
-		test('call the window.history.back function', () => {
+		test('calls the window.history.back function', () => {
 			const ticTacToe = new TicTacToe();
 			const back = jest.spyOn(window.history, 'back');
 
@@ -164,6 +162,142 @@ describe('TicTacToe', () => {
 
 			ticTacToe.undo({ preventDefault: mockFn });
 			expect(mockFn).toHaveBeenCalled();
+		});
+	});
+
+	describe('tileFiled', () => {
+		afterEach(() => {
+			window.history.back();
+		});
+
+		test('calls updateWinner', () => {
+			const ticTacToe = new TicTacToe();
+
+			ticTacToe.updateWinner = jest.fn();
+			ticTacToe.tileFlipped();
+
+			expect(ticTacToe.updateWinner).toHaveBeenCalled();
+		});
+
+		test('pushes a new symbols URL parameter into the browser\'s history', () => {
+			const ticTacToe = new TicTacToe();
+			const pushState = jest.spyOn(window.history, 'pushState');
+
+			ticTacToe.tiles[0].symbol = 'x';
+			ticTacToe.tiles[3].symbol = 'o';
+			ticTacToe.tiles[6].symbol = 'x';
+			ticTacToe.updateWinner = jest.fn();
+
+			ticTacToe.tileFlipped();
+
+			expect(pushState).toHaveBeenCalled();
+			expect(pushState.mock.calls.length).toBe(1);
+			expect(pushState.mock.calls[0][2]).toBe('?symbols=x--o--x--');
+
+			pushState.mockRestore();
+		});
+	});
+
+	describe('restart', () => {
+		let ticTacToe;
+
+		beforeEach(() => {
+			ticTacToe = new TicTacToe();
+
+			ticTacToe.tiles[0].symbol = 'x';
+			ticTacToe.tiles[3].symbol = 'o';
+			ticTacToe.tiles[6].symbol = 'x';
+
+			ticTacToe.dispatch = jest.fn();
+			ticTacToe.updateWinner = jest.fn();
+		});
+
+		afterEach(() => {
+			window.history.back();
+		});
+
+		test('clears all symbols', () => {
+			ticTacToe.restart();
+
+			expect(ticTacToe.tiles).toEqual([
+				{ symbol: null }, { symbol: null }, { symbol: null },
+				{ symbol: null }, { symbol: null }, { symbol: null },
+				{ symbol: null }, { symbol: null }, { symbol: null },
+			]);
+		});
+
+		test('calls updateWinner', () => {
+			ticTacToe.restart();
+
+			expect(ticTacToe.updateWinner).toHaveBeenCalled();
+		});
+
+		test('pushes a new state, with no symbols URL parameter, into the history', () => {
+			const pushState = jest.spyOn(window.history, 'pushState');
+
+			ticTacToe.restart();
+
+			expect(pushState).toHaveBeenCalled();
+
+			pushState.mockRestore();
+		});
+
+		test('dispatches a "symbols-loaded" custom event', () => {
+			ticTacToe.restart();
+
+			expect(ticTacToe.dispatch.mock.calls.length).toBe(1);
+			expect(ticTacToe.dispatch.mock.calls[0][0]).toBe('symbols-loaded');
+		});
+	});
+
+	describe('canGoBack', () => {
+		test('is false when there are no symbols selected', () => {
+			const ticTacToe = new TicTacToe();
+
+			expect(ticTacToe.canGoBack).toBe(false);
+		});
+
+		test('is true when there is at least on symbol selected', () => {
+			const ticTacToe = new TicTacToe();
+
+			ticTacToe.tiles[0].symbol = 'x';
+			expect(ticTacToe.canGoBack).toBe(true);
+		});
+	});
+
+	describe('zardozMode', () => {
+		test('when turned on, it sets xSrc and oSrc of all tiles and the <next-symbol>', () => {
+			// Use an empty object as the nextSymbol.
+			const nextSymbol = {};
+			const ticTacToe = new TicTacToe();
+			// Spy on the query method and make it return nextSymbol each time it's called.
+			const query = jest.spyOn(ticTacToe, 'query').mockImplementation(() => nextSymbol);
+			const elements = [nextSymbol, ...ticTacToe.tiles];
+
+			ticTacToe.zardozMode = true;
+
+			expect(elements.length).toBe(10);
+			elements.forEach(el => {
+				expect(el.xSrc).toMatch(TicTacToe.ZARDOZ_X);
+				expect(el.oSrc).toMatch(TicTacToe.ZARDOZ_O);
+			});
+		});
+
+		test('when turned off, it sets xSrc and oSrc of all tiles and the <next-symbol> to null', () => {
+			// Use an empty object as the nextSymbol.
+			const nextSymbol = {};
+			const ticTacToe = new TicTacToe();
+			// Spy on the query method and make it return nextSymbol each time it's called.
+			const query = jest.spyOn(ticTacToe, 'query').mockImplementation(() => nextSymbol);
+			const elements = [nextSymbol, ...ticTacToe.tiles];
+
+			ticTacToe.zardozMode = false;
+
+			expect(elements.length).toBe(10);
+			elements.forEach(el => {
+				expect(el.xSrc).toBeNull();
+				expect(el.oSrc).toBeNull();
+			});
 		});
 	});
 });
