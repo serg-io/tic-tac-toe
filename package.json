@@ -31,13 +31,13 @@
     "prebuild:html": "html-minifier --collapse-whitespace --remove-comments --input-dir src/html --output-dir build/tmp/html",
     "prebuild:js": "rsync -rm src/js/* build/prebuild/v$npm_package_version/js/",
 
-    "build:css:version": "find build/tmp-scss -type f -name \"*.scss\" -exec sed -i\"\" -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
+    "build:css:version": "find build/tmp-scss -type f -name \"*.scss\" -exec perl -i -pe\"s/\\{\\{\\s*versionDir\\s*\\}\\}/\\/v$npm_package_version/g\" {} \\;",
     "build:css:compile": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 build/tmp-scss/style.scss build/prebuild/v$npm_package_version/css/style.css",
     "build:img": "rsync -rm src/img/* build/dist/v$npm_package_version/img/",
-    "build:index:version": "sed -i\"\" -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" build/prebuild/index.html",
-    "build:html:version": "find build/tmp/html -type f -name \"*.html\" -exec sed -i\"\" -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
+    "build:index:version": "perl -i -pe\"s/\\{\\{\\s*versionDir\\s*\\}\\}/\\/v$npm_package_version/g\" build/prebuild/index.html",
+    "build:html:version": "find build/tmp/html -type f -name \"*.html\" -exec perl -i -pe\"s/\\{\\{\\s*versionDir\\s*\\}\\}/\\/v$npm_package_version/g\" {} \\;",
     "build:html:esm": "infuse --configs-path \"../js/libs/infuse.host/configs.js\" --cwd build/tmp html/**/*.html build/prebuild/v$npm_package_version",
-    "build:js:version": "find build/prebuild/v$npm_package_version/js -type f -name \"*.js\" -exec sed -i\"\" -e \"s/{{\\s*versionDir\\s*}}/\\/v$npm_package_version/g\" {} \\;",
+    "build:js:version": "find build/prebuild/v$npm_package_version/js -type f -name \"*.js\" -exec perl -i -pe\"s/\\{\\{\\s*versionDir\\s*\\}\\}/\\/v$npm_package_version/g\" {} \\;",
     "build:js:infuse": "rsync node_modules/infuse.host/src/{infuse*,configs,Watch,utils,sweep}.js build/prebuild/v$npm_package_version/js/libs/infuse.host/",
 
     "postbuild:css": "cleancss --source-map --source-map-inline-sources --skip-rebase --output build/dist/v$npm_package_version/css/style.css build/prebuild/v$npm_package_version/css/style.css",
