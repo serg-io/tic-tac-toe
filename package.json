@@ -51,6 +51,9 @@
     "pretest": "npm-run-all clean prebuild:dirs prebuild:html prebuild:js build:html:* build:js:* && rsync -rm --exclude=TestEnvironment.js src/tests/*.js build/prebuild/v$npm_package_version/tests/",
     "test": "jest",
 
+    "preversion": "npm-run-all lint test",
+    "postversion": "git push && git push --tags",
+
     "watch:css": "nodemon --watch src/scss --ext scss --exec \"npm run dev:css\"",
     "watch:index": "nodemon --watch src --ext html --ignore html/ --ignore img/ --ignore js/ --ignore scss/ --exec \"npm run dev:index\"",
     "watch:img": "nodemon --watch src/img --ext svg,jpg --exec \"npm run build:img\"",

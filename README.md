@@ -43,7 +43,7 @@ npm run dev
 ```
 
 Once the application is running, you can access it by going to
-[http://localhost:3000/](http://localhost:3000/) using your web browsers.
+[http://localhost:3000/](http://localhost:3000/) using your web browser.
 
 ## Production Mode ##
 
