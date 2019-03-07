@@ -19,10 +19,12 @@ const ZARDOZ_O = '{{ versionDir }}/img/zardoz01.jpg';
  * this function will return: `['x', 'x', null, 'o', null, null, 'o', null, null]`
  *
  * @function parseSymbolsFromURL
+ * @param {string} [search] The URL search string. Uses `window.location.search` by default.
  * @returns {string[]}
  */
-export function parseSymbolsFromURL() {
-	const params = new URLSearchParams(window.location.search);
+export function parseSymbolsFromURL(search) {
+	const searchStr = search !== undefined ? search : window.location.search;
+	const params = new URLSearchParams(searchStr);
 	const symbols = (params.get('symbols') || '').toLowerCase().split('').map(
 		val => (val === 'x' || val === 'o' ? val : null),
 	);

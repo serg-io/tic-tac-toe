@@ -24,6 +24,7 @@
     "lint": "npm-run-all lint:*",
     "lint:css": "stylelint src/scss/**/*.scss",
     "lint:js": "eslint src/js/*.js",
+    "lint:tests": "eslint src/tests/*.js",
 
     "prebuild:dirs": "mkdirp build/dist/v$npm_package_version/css build/dist/v$npm_package_version/js/libs build/prebuild/v$npm_package_version/js/libs",
     "prebuild:css": "rsync -rm src/scss/* build/tmp-scss/",
@@ -47,7 +48,7 @@
     "postbuild:polyfill": "rsync node_modules/@webcomponents/custom-elements/custom-elements.min.js build/dist/v$npm_package_version/js/libs/",
     "postbuild:webpack": "webpack -p",
 
-    "pretest": "npm-run-all clean prebuild:dirs prebuild:html prebuild:js build:html:* build:js:* && rsync -rm --exclude=TestEnvironment.js src/tests/* build/prebuild/v$npm_package_version/tests/",
+    "pretest": "npm-run-all clean prebuild:dirs prebuild:html prebuild:js build:html:* build:js:* && rsync -rm --exclude=TestEnvironment.js src/tests/*.js build/prebuild/v$npm_package_version/tests/",
     "test": "jest",
 
     "watch:css": "nodemon --watch src/scss --ext scss --exec \"npm run dev:css\"",
@@ -84,6 +85,7 @@
     "infuse-cli": "^0.1.1",
     "infuse-loader": "^0.2.0",
     "jest": "^24.1.0",
+    "jest-environment-jsdom": "^24.0.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.10",
