@@ -7,9 +7,9 @@ next-symbol {
 	 * than of 490px and a height less than 810px. This media query fixes that problem by removing
 	 * the margin-top and scaling down the <next-symbol> and moving it up.
 	 */
-	@media (min-width: 490px) and (max-height: 810px) {
+	@media (max-height: 850px) {
 		margin-top: 0;
-		transform: scale(.7) translateY(-20px);
+		transform: scale(.7) translateY(-10px);
 	}
 
 	/**

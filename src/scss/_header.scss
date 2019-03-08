@@ -14,7 +14,7 @@ header {
 		 * This media query removes the vertical margin of .controls which helps make the tiles at
 		 * the bottom of the page visible.
 		 */
-		@media (min-width: 490px) and (max-height: 810px) {
+		@media (max-height: 850px) {
 			margin: 0;
 		}
 
