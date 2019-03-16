@@ -43,13 +43,10 @@ self.onactivate = (event) => {
  * the cached resource is used, otherwise an actuall request is sent using the `fetch` function.
  */
 self.onfetch = (event) => {
-	event.waitUntil(
-		caches.match(event.request).then((response) => {
-			if (response) {
-				return response;
-			}
+	const url = new URL(event.request.url);
+	const request = url.pathname === '/' ? '/index.html' : event.request;
 
-			return fetch(event.request);
-		}),
+	event.respondWith(
+		caches.match(request).then(response => response || fetch(event.request)),
 	);
 };
