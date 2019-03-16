@@ -1,0 +1,49 @@
+sw-loader {
+	/**
+	 * Place the <sw-loader> element at the bottom right corner.
+	 */
+	position: fixed;
+	right: $spacer;
+	bottom: $spacer;
+	display: block;
+
+	/**
+	 * The <sw-loader> element is initially transparent and all pointer events are ignored.
+	 */
+	pointer-events: none;
+	opacity: 0;
+	will-change: opacity;
+	@include ease-in-out($fade-duration);
+
+	/**
+	 * When the <sw-loader> element has the class "fade-in" enable pointer events and use the
+	 * "fade-in" animation to display the contents of the element.
+	 */
+	&.fade-in {
+		pointer-events: auto;
+		animation-name: fade-in;
+	}
+
+	/**
+	 * When the <sw-loader> element has the class "fade-out" use the "fade-out" animation to hide
+	 * the contents of the element.
+	 */
+	&.fade-out {
+		animation-name: fade-out;
+	}
+
+	.alert {
+		max-width: calc(100vw - #{ 2 * $spacer });
+		margin-bottom: 0;
+	}
+}
+
+@keyframes fade-in {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+@keyframes fade-out {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}

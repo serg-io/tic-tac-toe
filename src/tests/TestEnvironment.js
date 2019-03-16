@@ -14,7 +14,13 @@ const JSDOMEnvironment = require('jest-environment-jsdom');
  */
 class HTMLElement {
 	constructor() {
+		const classList = new Set();
+
 		this.attributes = new Map();
+		this.classList = classList;
+
+		classList.remove = (...args) => classList.delete(...args);
+		classList.contains = (...args) => classList.has(...args);
 	}
 
 	getAttribute(key) {

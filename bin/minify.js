@@ -1,36 +1,21 @@
 #!/usr/bin/env node
 
-/**
- * Promisifies a function.
- *
- * @function promisify
- * @param {Function} fn The function to promisify.
- * @return {Function} The promisified function.
- */
-function promisify(fn) {
-	return (...args) => new Promise((resolve, reject) => {
-		fn(...args, (error, result) => (error ? reject(error) : resolve(result)));
-	});
-}
-
 const path = require('path');
-const filesystem = require('fs');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const Terser = require('terser');
-const glob = promisify(require('glob'));
+const { cli, searchFiles, UTF8, ...fs } = require('./utils');
 
-const UTF8 = 'utf8';
+// Parse CLI options and arguments.
+const { args, options } = cli(['cwd']);
 
-// Create an object with promisified versions of `readFile`, `mkdir`, and `writeFile`.
-const fs = ['readFile', 'mkdir', 'writeFile'].reduce((obj, key) => {
-	obj[key] = promisify(filesystem[key]);
-	return obj;
-}, {});
+// Use the --cwd CLI option if one was given, otherwise use `process.cwd()`.
+const cwd = options.cwd ? path.resolve(options.cwd) : process.cwd();
 
 // First argument: file search pattern.
-const pattern = process.argv[2];
+const pattern = args[0];
 
-// The second and third arguments are the input and output directories respectively.
-const [cwd, outputDir] = process.argv.splice(3).map(dir => path.resolve(dir));
+// Second argument: path to the output directory.
+const outputDir = path.resolve(args[1]);
 
 /**
  * Minifies an ES Module file.
@@ -45,6 +30,7 @@ async function minifyESModule(source, destination) {
 	const result = Terser.minify(code, { module: true });
 
 	if (result.error) {
+		// eslint-disable-next-line
 		console.error(`Error minifying ${ source }`);
 		throw result.error;
 	}
@@ -56,12 +42,12 @@ async function minifyESModule(source, destination) {
 	await fs.writeFile(destination, result.code, UTF8);
 }
 
-(async function() {
+(async function run() {
 	// Search for files in `cwd` that match the given `pattern` (do NOT follow symlinks).
-	const files = await glob(pattern, { cwd, follow: false });
+	const files = await searchFiles(pattern, { cwd, follow: false });
 
 	// Minify each file and create an array of promises.
-	const promises = files.map(file => {
+	const promises = files.map((file) => {
 		const src = path.resolve(cwd, file);
 		const dest = path.resolve(outputDir, file);
 
@@ -69,5 +55,5 @@ async function minifyESModule(source, destination) {
 	});
 
 	// Wait until all promises are resolved before ending execution.
-	return await Promise.all(promises);
-})();
+	await Promise.all(promises);
+}());

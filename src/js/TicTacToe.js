@@ -1,10 +1,8 @@
 import Host from './Host.js';
 import templ from '../html/tic-tac-toe.html';
 
-/**
- * The tic tac toe template uses <board-tile> and <next-symbol> custom elements. Class definitions
- * for those elements must be imported here in order for the elements to work properly.
- */
+// Import ES Modules that define custom elements used inside the <tic-tac-toe> element.
+import './SWLoader.js';
 import './BoardTile.js';
 import './NextSymbol.js';
 
@@ -40,14 +38,14 @@ export default class TicTacToe extends Host {
 	 * Path to the image to use as the X symbol when the Zardoz mode is on.
 	 */
 	static get ZARDOZ_X() {
-		return '{{ versionDir }}/img/square.svg';
+		return '/v{{ version }}/img/square.svg';
 	}
 
 	/**
 	 * Path to the image to use as the O symbol when the Zardoz mode is on.
 	 */
 	static get ZARDOZ_O() {
-		return '{{ versionDir }}/img/zardoz01.jpg';
+		return '/v{{ version }}/img/zardoz01.jpg';
 	}
 
 	/**
