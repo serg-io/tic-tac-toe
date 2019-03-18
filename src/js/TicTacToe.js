@@ -78,6 +78,9 @@ export default class TicTacToe extends Host {
 	 * @method connectedCallback
 	 */
 	connectedCallback() {
+		const children = Array.from(this.children);
+		children.forEach(el => el.remove());
+
 		super.connectedCallback();
 
 		this.updateWinner();

@@ -1,0 +1,19 @@
+{
+	"short_name": "Tic Tac Toe",
+	"name": "Tic Tac Toe v{{ version }}",
+	"icons": [{
+		"sizes": "192x192",
+		"type": "image/png",
+		"src": "/v{{ version }}/img/favicon-192.png"
+	}, {
+		"sizes": "512x512",
+		"type": "image/png",
+		"src": "/v{{ version }}/img/favicon.png"
+	}],
+	"scope": "/",
+	"start_url": "/?hs=1",
+	"display": "standalone",
+	"orientation": "portrait",
+	"theme_color": "#ced4da",
+	"background_color": "#e9ecef"
+}

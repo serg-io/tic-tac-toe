@@ -4,11 +4,25 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Tic Tac Toe</title>
+		<link rel="manifest" href="/manifest.json">
+		<meta name="theme-color" content="#ced4da">
+		<meta name="Description" content="Tic Tac Toe Progressive Web Application">
 		<link rel="stylesheet" href="/v{{ version }}/css/style.css" />
 		<link rel="icon" href="/v{{ version }}/img/favicon.png">
+		<style>
+			/**
+			 * This style applies only to the <tic-tac-toe> element when it hasn't been defined
+			 * (in other words, when the page is loading).
+			 */
+			tic-tac-toe:not(:defined) h1 {
+				text-align: center;
+			}
+		</style>
 	</head>
 	<body>
-		<tic-tac-toe></tic-tac-toe>
+		<tic-tac-toe>
+			<h1>Tic Tac Toe</h1>
+		</tic-tac-toe>
 		<script>
 			// Add polyfill if custom elements are not supported by the browser.
 			if (!window.customElements) {

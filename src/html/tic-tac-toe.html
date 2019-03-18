@@ -8,7 +8,7 @@
 				"tile-flipped" event reaches the host (the <tic-tac-toe> element) or when the host triggers a "symbols-loaded" event.
 			-->
 			<button type="button" title="Undo" onclick="host.undo()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
-				<img src="/v{{ version }}/img/back.svg" />
+				<img src="/v{{ version }}/img/back.svg" alt="Back arrow icon" />
 			</button>
 
 			<!-- This checkbox toggles on and off the Zardoz mode. -->
@@ -23,7 +23,7 @@
 				dispatches a "symbols-loaded" event.
 			-->
 			<button type="button" title="Restart" onclick="host.restart()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
-				<img src="/v{{ version }}/img/restart.svg" />
+				<img src="/v{{ version }}/img/restart.svg" alt="Restart icon" />
 			</button>
 		</div>
 	</header>
