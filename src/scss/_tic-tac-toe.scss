@@ -5,9 +5,9 @@ tic-tac-toe {
 	/**
 	 * Set a responsive size for the <tic-tac-toe> element.
 	 */
-	@each $name, $width in $board-sizes {
+	@each $name, $board-width in $board-sizes {
 		@include media-breakpoint-up($name, $grid-breakpoints) {
-			width: $width;
+			width: calc(#{ $board-width });
 		}
 	}
 }

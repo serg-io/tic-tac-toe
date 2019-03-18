@@ -5,7 +5,7 @@ board-tile {
 	perspective: #{ $tile-perspective }px;
 
 	// Assign a responsive size to each tile.
-	@include responsive-tile;
+	@include responsive-tile();
 
 	// Disable mouse events if the tile has a symbol assigned.
 	&[symbol] {

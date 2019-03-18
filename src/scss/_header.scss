@@ -6,18 +6,7 @@ header {
 
 	// Container for the undo, restart, and the zardoz toggle buttons.
 	.controls {
-		margin: map-get($spacers, 3) 0;
-
-		/**
-		 * The tiles at the bottom of the page, inside the <next-symbol> element, are not completely
-		 * visible on screens that have a width greater than of 490px and a height less than 810px.
-		 * This media query removes the vertical margin of .controls which helps make the tiles at
-		 * the bottom of the page visible.
-		 */
-		@media (max-height: 850px) {
-			margin: 0;
-		}
-
+		margin: map-get($spacers, 1) 0;
 	}
 
 	// Undo and restart buttons.

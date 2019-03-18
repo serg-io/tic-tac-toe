@@ -4,10 +4,10 @@
 	/**
 	 * Assign a responsive width and heigth to the board.
 	 */
-	@each $name, $width in $board-sizes {
+	@each $name, $board-width in $board-sizes {
 		@include media-breakpoint-up($name, $grid-breakpoints) {
-			width: $width;
-			height: $width;
+			width: calc(#{ $board-width });
+			height: calc(#{ $board-width });
 		}
 	}
 
@@ -15,11 +15,15 @@
 	 * The background sits behind the tiles and is animated when the page is loaded.
 	 */
 	.background {
+		position: absolute;
+		top: 0;
+		left: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		width: calc(100% - 1px);
+		height: calc(100% - 1px);
 		overflow: hidden;
-		@include absolute-100;
 
 		/**
 		 * This div has the same size as the tiles in the board and sits behind the center tile.
@@ -27,7 +31,7 @@
 		 * board.
 		 */
 		& > div {
-			@include responsive-tile;
+			@include responsive-tile();
 			will-change: transform;
 			background-color: $gray-400;
 			animation: grow 1s ease-in-out .25s forwards;

@@ -10,15 +10,17 @@
 }
 
 /**
- * Mixin to assign a responsive width and height to a tile.
+ * Assigns a responsive width and height to a tile. This mixin uses the widths in `$board-sizes`,
+ * substracts the corresponding $spacing (as specified in `$tile-spacings`), and divides it by the
+ * specified `$tiles-per-row` (which is 3 by default).
  */
-@mixin responsive-tile {
-	@each $name, $width in $board-sizes {
+@mixin responsive-tile($tiles-per-row: 3) {
+	@each $name, $board-width in $board-sizes {
 		@include media-breakpoint-up($name, $grid-breakpoints) {
-			$tile-width: map-get($tile-sizes, $name);
+			$spacing: map-get($tile-spacings, $name);
 
-			width: $tile-width;
-			height: $tile-width;
+			width: calc((#{ $board-width } - #{ $spacing }) / #{ $tiles-per-row });
+			height: calc((#{ $board-width } - #{ $spacing }) / #{ $tiles-per-row });
 		}
 	}
 }

@@ -7,16 +7,16 @@ $body-bg: $gray-200;
  * above) screens the size of the board is limited to 576px minus two times the $spacer.
  */
 $board-sizes: (
-	xs: calc(100vw - #{ $spacer * 2 }),
-	sm: calc(576px - #{ $spacer * 2 }),
+	xs: 100vw - #{ $spacer * 2 },
+	sm: 576px - #{ $spacer * 2 },
 );
 
 /**
- * This map defines the size of each tile on the Tic Tac Toe board.
+ * This map defines the spacing between tiles on the Tic Tac Toe board.
  */
-$tile-sizes: (
-	xs: calc(((100vw - #{ $spacer * 2 } + 1px) / 3) - #{ map-get($spacers, 1) } + 1px),
-	sm: calc(((576px - #{ $spacer * 2 } + 1px) / 3) - #{ map-get($spacers, 2) } + 1px),
+$tile-spacings: (
+	xs: #{ $spacer * .75 },
+	sm: #{ $spacer * 1.5 },
 );
 
 // Scale and perspective variables used to animate the tiles.
