@@ -4,7 +4,9 @@ Tic Tac Toe
 This project is a Tic Tac Toe web application that uses the following technologies:
 
   * Web components.
-  * ES2015+ (previously known as ES6+).
+  * Service worker.
+  * Progressive web application.
+  * ES2015+ (also known as ES6+).
   * ES Modules:
     * For browsers that support ES Modules natively.
   * A bundle file:
