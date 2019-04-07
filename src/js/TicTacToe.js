@@ -35,20 +35,6 @@ export function parseSymbolsFromURL(search) {
  */
 export default class TicTacToe extends Host {
 	/**
-	 * Path to the image to use as the X symbol when the Zardoz mode is on.
-	 */
-	static get ZARDOZ_X() {
-		return '/v{{ version }}/img/square.svg';
-	}
-
-	/**
-	 * Path to the image to use as the O symbol when the Zardoz mode is on.
-	 */
-	static get ZARDOZ_O() {
-		return '/v{{ version }}/img/zardoz01.jpg';
-	}
-
-	/**
 	 * Constructor. If it exists, it parses the `symbols` query parameter from the URL. The result
 	 * is assigned to `this.tiles` as an array of objects. Once rendered, `this.tiles` becomes an
 	 * array of <board-tile> custom elements.
@@ -231,27 +217,6 @@ export default class TicTacToe extends Host {
 	get canGoBack() {
 		const tileWithSymbol = this.tiles.find(tile => tile.symbol !== null);
 		return !!tileWithSymbol;
-	}
-
-	/**
-	 * This setter turns on/off the Zardoz mode.
-	 */
-	set zardozMode(on) {
-		/**
-		 * If the given value is `true`, use `ZARDOZ_X` and `ZARDOZ_O` as the `xSrc` and `oSrc`
-		 * properties of all the <board-tile> elements and the <next-symbol> element.
-		 */
-		const xSrc = on === true ? TicTacToe.ZARDOZ_X : null;
-		const oSrc = on === true ? TicTacToe.ZARDOZ_O : null;
-		const nextSymbolEl = this.query('next-symbol');
-		const tiles = [nextSymbolEl, ...this.tiles];
-
-		tiles.forEach((el) => {
-			/* eslint-disable no-param-reassign */
-			el.xSrc = xSrc;
-			el.oSrc = oSrc;
-			/* eslint-enable no-param-reassign */
-		});
 	}
 }
 

@@ -264,42 +264,4 @@ describe('TicTacToe', () => {
 			expect(ticTacToe.canGoBack).toBe(true);
 		});
 	});
-
-	describe('zardozMode', () => {
-		test('when turned on, it sets xSrc and oSrc of all tiles and the <next-symbol>', () => {
-			// Use an empty object as the nextSymbol.
-			const nextSymbol = {};
-			const ticTacToe = new TicTacToe();
-			// Spy on the query method and make it return nextSymbol each time it's called.
-			const query = jest.spyOn(ticTacToe, 'query').mockImplementation(() => nextSymbol);
-			const elements = [nextSymbol, ...ticTacToe.tiles];
-
-			ticTacToe.zardozMode = true;
-
-			expect(elements.length).toBe(10);
-			expect(query).toHaveBeenCalled();
-			elements.forEach((el) => {
-				expect(el.xSrc).toMatch(TicTacToe.ZARDOZ_X);
-				expect(el.oSrc).toMatch(TicTacToe.ZARDOZ_O);
-			});
-		});
-
-		test('when turned off, it sets xSrc and oSrc of all tiles and the <next-symbol> to null', () => {
-			// Use an empty object as the nextSymbol.
-			const nextSymbol = {};
-			const ticTacToe = new TicTacToe();
-			// Spy on the query method and make it return nextSymbol each time it's called.
-			const query = jest.spyOn(ticTacToe, 'query').mockImplementation(() => nextSymbol);
-			const elements = [nextSymbol, ...ticTacToe.tiles];
-
-			ticTacToe.zardozMode = false;
-
-			expect(elements.length).toBe(10);
-			expect(query).toHaveBeenCalled();
-			elements.forEach((el) => {
-				expect(el.xSrc).toBeNull();
-				expect(el.oSrc).toBeNull();
-			});
-		});
-	});
 });

@@ -1,31 +1,24 @@
 <template>
-	<header>
+	<header class="d-flex justify-content-between align-items-center">
+		<!--
+			Undo button. When clicked, this button reverts the previous action by going back to the previous page in the browser history.
+			This button is disabled if none of the tiles on the board have a symbol. The disabled attribute is updated every time a
+			"tile-flipped" event reaches the host (the <tic-tac-toe> element) or when the host triggers a "symbols-loaded" event.
+		-->
+		<button type="button" title="Undo" onclick="host.undo()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
+			<img src="/v{{ version }}/img/back.svg" alt="Back arrow icon" />
+		</button>
+
 		<h1>Tic Tac Toe</h1>
-		<div class="controls d-flex justify-content-between align-items-center">
-			<!--
-				Undo button. When clicked, this button reverts the previous action by going back to the previous page in the browser history.
-				This button is disabled if none of the tiles on the board have a symbol. The disabled attribute is updated every time a
-				"tile-flipped" event reaches the host (the <tic-tac-toe> element) or when the host triggers a "symbols-loaded" event.
-			-->
-			<button type="button" title="Undo" onclick="host.undo()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
-				<img src="/v{{ version }}/img/back.svg" alt="Back arrow icon" />
-			</button>
 
-			<!-- This checkbox toggles on and off the Zardoz mode. -->
-			<div class="custom-control custom-switch">
-				<input type="checkbox" class="custom-control-input" id="zardoz" onchange="host.zardozMode = this.matches(':checked')">
-				<label class="custom-control-label" for="zardoz">Zardoz Mode</label>
-			</div>
-
-			<!--
-				When clicked, this button starts a new game. This button is disabled when none of the tiles on the board have a symbol.
-				The disabled attribute is updated every time a "tile-flipped" event reaches the host (the <tic-tac-toe> element) or when the host
-				dispatches a "symbols-loaded" event.
-			-->
-			<button type="button" title="Restart" onclick="host.restart()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
-				<img src="/v{{ version }}/img/restart.svg" alt="Restart icon" />
-			</button>
-		</div>
+		<!--
+			When clicked, this button starts a new game. This button is disabled when none of the tiles on the board have a symbol.
+			The disabled attribute is updated every time a "tile-flipped" event reaches the host (the <tic-tac-toe> element) or when the host
+			dispatches a "symbols-loaded" event.
+		-->
+		<button type="button" title="Restart" onclick="host.restart()" disabled?="${ !host.canGoBack }" watch-host="tile-flipped; symbols-loaded">
+			<img src="/v{{ version }}/img/restart.svg" alt="Restart icon" />
+		</button>
 	</header>
 
 	<div class="board d-flex justify-content-between flex-wrap rendering" on-tile-flipped="host.tileFlipped()">

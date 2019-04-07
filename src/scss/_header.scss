@@ -1,12 +1,9 @@
 header {
+	margin-bottom: $spacer;
+
 	h1 {
 		margin: 0;
 		text-align: center;
-	}
-
-	// Container for the undo, restart, and the zardoz toggle buttons.
-	.controls {
-		margin: map-get($spacers, 1) 0;
 	}
 
 	// Undo and restart buttons.
