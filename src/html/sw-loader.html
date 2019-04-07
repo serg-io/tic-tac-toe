@@ -1,7 +1,28 @@
 <template>
-	<div class="alert alert-info alert-dismissible" role="alert">
+	<!-- This is displayed the first time a service worker is installed and activated. -->
+	<div id="installed" class="alert alert-info alert-dismissible" role="alert" onanimationend="this.classList.remove('fade-out')">
 		This app is now available offline.
-		<button type="button" class="close" aria-label="Close" onclick="host.hide()">
+		<button type="button" class="close" aria-label="Close" onclick="host.fadeOut('installed')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<!-- This is displayed whenever there's a new version available of the service worker. -->
+	<div id="newVersion" class="alert alert-info" role="alert">
+		New version available.
+		<!-- Clicking this button activates the new service worker and reloads the page. -->
+		<button type="button" class="btn btn-outline-dark update-btn" onclick="host.update()">
+			Update
+		</button>
+	</div>
+
+	<!--
+		This is displayed after a new version of the service worker is activated
+		and the page is reloaded.
+	-->
+	<div id="updated" class="alert alert-info alert-dismissible" role="alert" onanimationend="this.classList.remove('fade-out')">
+		You're now using the latest version.
+		<button type="button" class="close" aria-label="Close" onclick="host.fadeOut('updated')">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>

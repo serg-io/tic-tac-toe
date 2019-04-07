@@ -6,35 +6,34 @@ sw-loader {
 	right: $spacer;
 	bottom: $spacer;
 	display: block;
+	max-width: calc(100vw - #{ 2 * $spacer });
 
-	/**
-	 * The <sw-loader> element is initially transparent and all pointer events are ignored.
-	 */
-	pointer-events: none;
-	opacity: 0;
-	will-change: opacity;
-	@include ease-in-out($fade-duration);
-
-	/**
-	 * When the <sw-loader> element has the class "fade-in" enable pointer events and use the
-	 * "fade-in" animation to display the contents of the element.
-	 */
-	&.fade-in {
-		pointer-events: auto;
-		animation-name: fade-in;
-	}
-
-	/**
-	 * When the <sw-loader> element has the class "fade-out" use the "fade-out" animation to hide
-	 * the contents of the element.
-	 */
-	&.fade-out {
-		animation-name: fade-out;
+	.update-btn {
+		margin-left: $spacer;
 	}
 
 	.alert {
-		max-width: calc(100vw - #{ 2 * $spacer });
+		display: none;
 		margin-bottom: 0;
+		opacity: 0;
+		will-change: opacity;
+		@include ease-in-out($fade-duration);
+
+		/**
+		 * Alerts are hidden by default, unless they have the "fade-in" or "fade-out" class.
+		 */
+		&.fade-in,
+		&.fade-out {
+			display: block;
+		}
+
+		&.fade-in {
+			animation-name: fade-in;
+		}
+
+		&.fade-out {
+			animation-name: fade-out;
+		}
 	}
 }
 

@@ -50,3 +50,13 @@ self.onfetch = (event) => {
 		caches.match(request).then(response => response || fetch(event.request)),
 	);
 };
+
+/**
+ * Listed for messages sent from the <sw-loader> custom element.
+ */
+self.onmessage = (event) => {
+	// Called the `skipWaiting` method if the received message was "skipWaiting".
+	if (event.data === 'skipWaiting') {
+		self.skipWaiting();
+	}
+};
